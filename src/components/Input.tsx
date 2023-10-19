@@ -1,35 +1,18 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../redux/index";
-import { Todo, addTodo } from "../redux/TodoReducer";
-import { v4 as uuidv4 } from "uuid";
+import { useDispatch } from "react-redux";
+import { addTodo } from "../redux/TodoReducer";
 
 const Input = () => {
   const dispatch = useDispatch();
-  const todoList = useSelector((state: RootState) => state.todos.todos);
-  const [todo, setTodo] = useState([
-    {
-      id: "",
-      title: "",
-      completed: false,
-    },
-  ]);
+  const [todo, setTodo] = useState<string>("");
 
-  const handleTextInputChange = (e: any) => {
+  const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setTodo([
-      ...todo,
-      {
-        id: uuidv4(),
-        title: value,
-        completed: false,
-      },
-    ]);
+    setTodo(value);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    console.log(todo);
     dispatch(addTodo(todo));
   };
 
