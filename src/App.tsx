@@ -6,9 +6,9 @@ import TodoItems from "./components/TodoItems";
 
 function App() {
   return (
-    <div className="h-[60vh] flex flex-col justify-center items-center">
+    <div className="h-[100vh] flex flex-col items-center mt-10">
       <Provider store={store}>
-        <div className="shadow-lg p-20">
+        <div className="shadow-lg p-10">
           <Title />
           <Input />
           <TodoItems />

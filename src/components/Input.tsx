@@ -19,9 +19,19 @@ const Input = () => {
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)} className="">
-      <input type="text" onChange={handleTextInputChange} value={inputText} />;
-      <button type="submit">{isEditing ? "Edit" : "Submit"}</button>
+    <form onSubmit={(e) => handleSubmit(e)} className="flex">
+      <input
+        type="text"
+        onChange={handleTextInputChange}
+        value={inputText}
+        className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+      />
+      <button
+        type="submit"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
+      >
+        {isEditing ? "Edit" : "Submit"}
+      </button>
     </form>
   );
 };

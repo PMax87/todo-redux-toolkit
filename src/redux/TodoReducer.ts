@@ -12,6 +12,7 @@ export interface TodoState {
   inputText: string;
   isEditing: boolean;
   editingTodoId: string;
+  isCompleted: boolean;
 }
 
 const initialState: TodoState = {
@@ -19,6 +20,7 @@ const initialState: TodoState = {
   inputText: "",
   isEditing: false,
   editingTodoId: "",
+  isCompleted: false,
 };
 
 export const todoSlice = createSlice({
@@ -54,9 +56,17 @@ export const todoSlice = createSlice({
       state.isEditing = true;
       state.editingTodoId = action.payload;
     },
+    completeTodo: (state, action: PayloadAction<string>) => {
+      const editingIndex = state.todos.findIndex(
+        (todo) => todo.id === action.payload
+      );
+      if (editingIndex !== -1) {
+        state.isCompleted = !state.isCompleted;
+      }
+    },
   },
 });
 
-export const { addTodo, deleteTodo, setInputText, editTodo } =
+export const { addTodo, deleteTodo, setInputText, editTodo, completeTodo } =
   todoSlice.actions;
 export default todoSlice.reducer;
