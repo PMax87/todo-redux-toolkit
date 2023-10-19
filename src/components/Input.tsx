@@ -1,30 +1,27 @@
-import React, { ReactElement } from "react";
-import { useDispatch } from "react-redux";
-import { addTodo } from "../redux/TodoReducer";
+import React from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { addTodo, setInputText } from "../redux/TodoReducer";
+import { RootState } from "../redux";
 
-type Propstype = {
-  todo: string;
-  setTodo: React.Dispatch<React.SetStateAction<string>>;
-};
-
-const Input = ({ todo, setTodo }: Propstype): ReactElement => {
+const Input = () => {
   const dispatch = useDispatch();
+  const inputText = useSelector((state: RootState) => state.todos.inputText);
+  const isEditing = useSelector((state: RootState) => state.todos.isEditing);
 
   const handleTextInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    setTodo(value);
+    dispatch(setInputText(value));
   };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(addTodo(todo));
-    setTodo("");
+    dispatch(addTodo(inputText));
   };
 
   return (
     <form onSubmit={(e) => handleSubmit(e)}>
-      <input type="text" onChange={handleTextInputChange} value={todo} />;
-      <button type="submit">Invia</button>
+      <input type="text" onChange={handleTextInputChange} value={inputText} />;
+      <button type="submit">{isEditing ? "Edit" : "Submit"}</button>
     </form>
   );
 };

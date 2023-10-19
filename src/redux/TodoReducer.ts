@@ -10,29 +10,53 @@ export interface Todo {
 export interface TodoState {
   todos: Todo[];
   inputText: string;
+  isEditing: boolean;
+  editingTodoId: string;
 }
 
 const initialState: TodoState = {
   todos: [],
   inputText: "",
+  isEditing: false,
+  editingTodoId: "",
 };
 
 export const todoSlice = createSlice({
   name: "todos",
   initialState,
   reducers: {
+    setInputText: (state, action: PayloadAction<string>) => {
+      state.inputText = action.payload;
+    },
     addTodo: (state, action: PayloadAction<string>) => {
-      state.todos.push({
-        id: uuidv4(),
-        title: action.payload,
-        completed: false,
-      });
+      if (!state.editingTodoId) {
+        state.todos.push({
+          id: uuidv4(),
+          title: action.payload,
+          completed: false,
+        });
+      } else {
+        const editingIndex = state.todos.findIndex(
+          (todo) => todo.id === state.editingTodoId
+        );
+        if (editingIndex !== -1) {
+          state.todos[editingIndex].title = action.payload;
+          state.editingTodoId = "";
+        }
+        state.isEditing = false;
+      }
+      state.inputText = "";
     },
     deleteTodo: (state, action: PayloadAction<string>) => {
       state.todos = state.todos.filter((todo) => todo.id !== action.payload);
     },
+    editTodo: (state, action: PayloadAction<string>) => {
+      state.isEditing = true;
+      state.editingTodoId = action.payload;
+    },
   },
 });
 
-export const { addTodo, deleteTodo } = todoSlice.actions;
+export const { addTodo, deleteTodo, setInputText, editTodo } =
+  todoSlice.actions;
 export default todoSlice.reducer;
