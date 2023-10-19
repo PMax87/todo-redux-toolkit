@@ -9,10 +9,12 @@ export interface Todo {
 
 export interface TodoState {
   todos: Todo[];
+  inputText: string;
 }
 
 const initialState: TodoState = {
   todos: [],
+  inputText: "",
 };
 
 export const todoSlice = createSlice({
