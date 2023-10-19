@@ -19,7 +19,7 @@ const Input = () => {
   };
 
   return (
-    <form onSubmit={(e) => handleSubmit(e)}>
+    <form onSubmit={(e) => handleSubmit(e)} className="">
       <input type="text" onChange={handleTextInputChange} value={inputText} />;
       <button type="submit">{isEditing ? "Edit" : "Submit"}</button>
     </form>

@@ -6,13 +6,15 @@ import TodoItems from "./components/TodoItems";
 
 function App() {
   return (
-    <>
+    <div className="h-[60vh] flex flex-col justify-center items-center">
       <Provider store={store}>
-        <Title />
-        <Input />
-        <TodoItems />
+        <div className="shadow-lg p-20">
+          <Title />
+          <Input />
+          <TodoItems />
+        </div>
       </Provider>
-    </>
+    </div>
   );
 }
 
