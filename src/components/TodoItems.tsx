@@ -11,9 +11,6 @@ import {
 const TodoItems = () => {
   const dispatch = useDispatch();
   const todoList = useSelector((state: RootState) => state.todos.todos);
-  const isCompleted = useSelector(
-    (state: RootState) => state.todos.isCompleted
-  );
 
   const onDeleteTodo = (id: string) => {
     dispatch(deleteTodo(id));
@@ -43,11 +40,14 @@ const TodoItems = () => {
           <div key={todo.id} className="flex justify-between my-5 items-center">
             <input
               type="checkbox"
-              name=""
+              name="completed"
               className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500"
+              checked={todo.completed}
               onChange={() => onCompletedTodo(todo.id)}
             />
-            <p className={isCompleted ? "line-through" : ""}>{todo.title}</p>
+            <p className={`${todo.completed === false ? "" : "line-through"}`}>
+              {todo.title}
+            </p>
             <div className="container w-1/3 flex justify-end">
               <button onClick={() => onDeleteTodo(todo.id)}>Cancella</button>
               <button onClick={() => getTodoById(todo.id, todo.title)}>

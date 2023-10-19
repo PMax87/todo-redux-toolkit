@@ -12,7 +12,6 @@ export interface TodoState {
   inputText: string;
   isEditing: boolean;
   editingTodoId: string;
-  isCompleted: boolean;
 }
 
 const initialState: TodoState = {
@@ -20,7 +19,6 @@ const initialState: TodoState = {
   inputText: "",
   isEditing: false,
   editingTodoId: "",
-  isCompleted: false,
 };
 
 export const todoSlice = createSlice({
@@ -31,7 +29,7 @@ export const todoSlice = createSlice({
       state.inputText = action.payload;
     },
     addTodo: (state, action: PayloadAction<string>) => {
-      if (!state.editingTodoId) {
+      if (!state.isEditing) {
         state.todos.push({
           id: uuidv4(),
           title: action.payload,
@@ -43,7 +41,8 @@ export const todoSlice = createSlice({
         );
         if (editingIndex !== -1) {
           state.todos[editingIndex].title = action.payload;
-          state.editingTodoId = "";
+          (state.todos[editingIndex].completed = false),
+            (state.editingTodoId = "");
         }
         state.isEditing = false;
       }
@@ -57,12 +56,12 @@ export const todoSlice = createSlice({
       state.editingTodoId = action.payload;
     },
     completeTodo: (state, action: PayloadAction<string>) => {
-      const editingIndex = state.todos.findIndex(
-        (todo) => todo.id === action.payload
-      );
-      if (editingIndex !== -1) {
-        state.isCompleted = !state.isCompleted;
-      }
+      state.editingTodoId = action.payload;
+      state.todos.map((todo) => {
+        if (todo.id === action.payload) {
+          todo.completed = !todo.completed;
+        }
+      });
     },
   },
 });
